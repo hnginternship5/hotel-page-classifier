@@ -4,13 +4,18 @@ Created on Wed Apr 24 12:31:45 2019
 
 @author: Jesse Amamgbu
 """
+import urllib
 from urllib.request import urlopen
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import re
 import datetime
 import random
-
+import pandas as pd
+import numpy as np
+from collections import OrderedDict
+import warnings
+warnings.filterwarnings("ignore")
 
 pages = set() 
 random.seed(datetime.datetime.now())
