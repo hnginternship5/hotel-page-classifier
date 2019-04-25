@@ -1,1 +1,4 @@
 beautifulsoup4
+datatime
+pandas
+numpy
