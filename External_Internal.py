@@ -5,14 +5,14 @@ Created on Wed Apr 24 12:31:45 2019
 @author: Jesse Amamgbu
 """
 from urllib.request import urlopen
-from urllib3.parse import urlparse
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import re
 import datetime
 import random
 import pandas as pd
 import numpy as np
-import urllib3
+import urllib
 from collections import OrderedDict
 import warnings
 warnings.filterwarnings("ignore")
@@ -149,6 +149,6 @@ def CreateDataSet(df):
 #-----------------------------------------------------------------------------------------------#
 #In order to test script:Use code below
 
-getAllExternalLinks('https://theblowfishgroup.com/hotel/')
+# getAllExternalLinks('https://theblowfishgroup.com/hotel/')
 #getAllInternalLinks('https://theblowfishgroup.com/hotel/')
 #CreateDataSet(dataframe)
