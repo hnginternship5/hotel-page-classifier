@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 import re
 import datetime
 import random
-
+import pandas as pd
+import csv
 
 pages = set() 
 random.seed(datetime.datetime.now())
@@ -47,14 +48,16 @@ def getAllExternalLinks(siteUrl):
   bs = BeautifulSoup(html, 'html.parser')
   internalLinks = getInternalLinks(bs, domain)
   externalLinks = getExternalLinks(bs, domain)
-  for link in externalLinks:
-    if link not in allExtLinks:
-      allExtLinks.add(link)
-      print(link)
-  for link in internalLinks:
-    if link not in allIntLinks:
-      allIntLinks.add(link)
-      getAllExternalLinks(link)
+  with open('external.csv','w') as file:
+    for link in externalLinks:
+      writer=csv.writer(file, delimiter='\t',lineterminator='\n',)
+      if link not in allExtLinks:
+        allExtLinks.add(link)
+        writer.writerow(link)
+    for link in internalLinks:
+        if link not in allIntLinks:
+            allIntLinks.add(link)
+            getAllExternalLinks(link)
 
 #------------------------------------------------------------------------------------------------#
 # Collects a list of all internal URLs found on the site
@@ -66,15 +69,17 @@ def getAllInternalLinks(siteUrl):
   bs = BeautifulSoup(html, 'html.parser')
   internalLinks = getInternalLinks(bs, domain)
   
-  for link in internalLinks:
-    if link not in allExtLinks:
-      allIntLinks.add(link)
-      print(link)
-      
-
+  with open('internal.csv','w') as f1:
+    for link in internalLinks:
+      writer=csv.writer(f1, delimiter='\t',lineterminator='\n',)
+      if link not in allExtLinks:
+        allIntLinks.add(link)
+        print(link)
+        writer.writerow(link)
+  
 #-----------------------------------------------------------------------------------------------#
 #In order to test script:Use code below
 
-# getAllExternalLinks('https://theblowfishgroup.com/hotel/')
+#getAllExternalLinks('https://theblowfishgroup.com/hotel/')
 #getAllInternalLinks('https://theblowfishgroup.com/hotel/')
 
