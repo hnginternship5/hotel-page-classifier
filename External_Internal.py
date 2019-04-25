@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 import re
 import datetime
 import random
+import csv
 
 
 pages = set() 
@@ -55,14 +56,17 @@ def getAllExternalLinks(siteUrl):
     bs = BeautifulSoup(html, 'html.parser')
     internalLinks = getInternalLinks(bs, domain)
     externalLinks = getExternalLinks(bs, domain)
-    for link in externalLinks:
-      if link not in allExtLinks:
-        allExtLinks.add(link)
-        print(link)
-    for link in internalLinks:
-      if link not in allIntLinks:
-        allIntLinks.add(link)
-        getAllExternalLinks(link)
+    with open('external.csv','w') as file:
+      for link in externalLinks:
+        writer=csv.writer(file, delimiter='\t',lineterminator='\n',)
+        if link not in allExtLinks:
+          allExtLinks.add(link)
+          print(link)
+          writer.writerow(link)
+      for link in internalLinks:
+        if link not in allIntLinks:
+          allIntLinks.add(link)
+          getAllExternalLinks(link)
   except:
     print('Error in getting external link')
 #------------------------------------------------------------------------------------------------#
@@ -76,10 +80,13 @@ def getAllInternalLinks(siteUrl):
     bs = BeautifulSoup(html, 'html.parser')
     internalLinks = getInternalLinks(bs, domain)
   
-    for link in internalLinks:
-      if link not in allExtLinks:
-        allIntLinks.add(link)
-        print(link)
+    with open('internal.csv','w') as f1:
+      for link in internalLinks:
+        writer=csv.writer(f1, delimiter='\t',lineterminator='\n',)
+        if link not in allExtLinks:
+          allIntLinks.add(link)
+          print(link)
+          writer.writerow(link)
   except:
     print('Error in getting internal link')    
 
@@ -88,4 +95,3 @@ def getAllInternalLinks(siteUrl):
 
 #getAllExternalLinks(desiredlink)
 #getAllInternalLinks(desiredlink)
-
