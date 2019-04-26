@@ -61,8 +61,9 @@ def getAllExternalLinks(siteUrl):
     internalLinks = getInternalLinks(bs, domain)
     externalLinks = getExternalLinks(bs, domain)
     with open('external.csv','w') as file:
+      writer=csv.writer(file, delimiter='\t',lineterminator='\n')
+      writer.writerow(["Urls"])
       for link in externalLinks:
-        writer=csv.writer(file, delimiter='\t',lineterminator='\n',)
         if link not in allExtLinks:
           allExtLinks.add(link)
           print(link)
@@ -88,8 +89,9 @@ def getAllInternalLinks(siteUrl):
     internalLinks = getInternalLinks(bs, domain)
   
     with open('internal.csv','w') as f1:
+      writer=csv.writer(f1, delimiter='\t',lineterminator='\n')
+      writer.writerow(["Urls"])
       for link in internalLinks:
-        writer=csv.writer(f1, delimiter='\t',lineterminator='\n',)
         if link not in allExtLinks:
           allIntLinks.add(link)
           print(link)
