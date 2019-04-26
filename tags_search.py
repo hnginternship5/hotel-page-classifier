@@ -14,6 +14,7 @@ class TagSearch:
 		self.title_tags_text = None
 		self.h1_tags_text = None
 		self.h2_tags_text = None
+		self.page_dict = None
 		self.page_json = None
 
 	def fetch_page(self):
@@ -24,21 +25,18 @@ class TagSearch:
 	def find_title_tags(self):
 		bs_content = bs(self.page_content, "html.parser")
 		title_tags = bs_content.find_all("title")
-		self.title_tags_text = [tag.text for tag in title_tags]
+		self.title_tags_text = [tag.text.strip() for tag in title_tags]
 
 	def find_h1_tags(self):
 		bs_content = bs(self.page_content, "html.parser")
 		h1_tags = bs_content.find_all("h1")
-		self.h1_tags_text  = [tag.text for tag in h1_tags]
+		self.h1_tags_text  = [tag.text.strip() for tag in h1_tags]
 
 	def find_h2_tags(self):
 		bs_content = bs(self.page_content, "html.parser")
 		h2_tags = bs_content.find_all("h2")
-		self.h2_tags_text  = [tag.text for tag in h2_tags]
+		self.h2_tags_text  = [tag.text.strip() for tag in h2_tags]
 
-	def to_json(self):
-		tags = {"title":self.title_tags_text, "h1_tags":self.h1_tags_text, "h2_tags": self.h2_tags_text}
-		self.page_json = json.dumps(tags, indent=4)
-
-	def get_json(self):
-		return self.page_json
+	def get_dict(self):
+		self.page_dict = {"title":self.title_tags_text, "h1_tags":self.h1_tags_text, "h2_tags": self.h2_tags_text}
+		return self.page_dict
