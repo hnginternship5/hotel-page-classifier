@@ -30,8 +30,7 @@ def getInternalLinks(bs, includeUrl):
             internalLinks.append(link.attrs['href'])
     return internalLinks
   except:
-    print('HTTP error, link is not accessible')
-    return ''
+    pass
 
 
 def getExternalLinks(bs,excludeUrl):
@@ -98,7 +97,7 @@ def getAllInternalLinks(siteUrl):
           writer.writerow([link])
   except Exception as e:
     print(e)
-    print('Error in getting internal link')    
+    print('Error in getting internal link')
 
 #-----------------------------------------------------------------------------------------------#
 #In order to test script:Use code below
