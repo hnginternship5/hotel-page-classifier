@@ -87,7 +87,7 @@ def getAllInternalLinks(siteUrl):
           print(link)
           writer.writerow(link)
   except:
-    print('Error in getting internal link')    
+    pass  
 
 #-----------------------------------------------------------------------------------------------#
 #In order to test script:Use code below
