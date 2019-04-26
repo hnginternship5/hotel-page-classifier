@@ -35,7 +35,7 @@ class TagSearch:
 
 	def to_json(self):
 		tags = {"title":self.title_tags, "h1_tags":self.h1_tags, "h2_tags": self.h2_tags}
-		self.page_json = json.dumps(tags)
+		self.page_json = json.dumps(tags, indent=4)
 
 	def get_json(self):
 		return self.page_json
