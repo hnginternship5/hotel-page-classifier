@@ -7,10 +7,11 @@ Created on Wed Apr 25 00:15:26 2019
 from urllib.request import urlopen
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-import re
+import csv
 import datetime
 import random
-import csv
+import re
+import requests
 
 
 pages = set() 
@@ -50,18 +51,22 @@ def getExternalLinks(bs,excludeUrl):
 allExtLinks = set() 
 def getAllExternalLinks(siteUrl):
   try:
-    html = urlopen(siteUrl)
+    # Headers needed for sites that throw the 403:Forbidden error
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    page_object = requests.get(siteUrl, headers=headers)
+    html = page_object.content
     domain = '{}://{}'.format(urlparse(siteUrl).scheme,urlparse(siteUrl).netloc)
     bs = BeautifulSoup(html, 'html.parser')
     internalLinks = getInternalLinks(bs, domain)
     externalLinks = getExternalLinks(bs, domain)
     with open('external.csv','w') as file:
+      writer=csv.writer(file, delimiter='\t',lineterminator='\n')
+      writer.writerow(["Urls"])
       for link in externalLinks:
-        writer=csv.writer(file, delimiter='\t',lineterminator='\n',)
         if link not in allExtLinks:
           allExtLinks.add(link)
           print(link)
-          writer.writerow(link)
+          writer.writerow([link])
       for link in internalLinks:
         if link not in allIntLinks:
           allIntLinks.add(link)
@@ -74,20 +79,25 @@ def getAllExternalLinks(siteUrl):
 allIntLinks = set()
 def getAllInternalLinks(siteUrl):
   try:
-    html = urlopen(siteUrl)
+    # Headers needed for sites that throw the 403:Forbidden error
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    page_object = requests.get(siteUrl, headers=headers)
+    html = page_object.content
     domain = '{}://{}'.format(urlparse(siteUrl).scheme,urlparse(siteUrl).netloc)
     bs = BeautifulSoup(html, 'html.parser')
     internalLinks = getInternalLinks(bs, domain)
   
     with open('internal.csv','w') as f1:
+      writer=csv.writer(f1, delimiter='\t',lineterminator='\n')
+      writer.writerow(["Urls"])
       for link in internalLinks:
-        writer=csv.writer(f1, delimiter='\t',lineterminator='\n',)
         if link not in allExtLinks:
           allIntLinks.add(link)
           print(link)
-          writer.writerow(link)
-  except:
-    pass  
+          writer.writerow([link])
+  except Exception as e:
+    print(e)
+    print('Error in getting internal link')
 
 #-----------------------------------------------------------------------------------------------#
 #In order to test script:Use code below
