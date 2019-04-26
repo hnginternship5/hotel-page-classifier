@@ -17,6 +17,9 @@ hotel_names = [name.translate(str.maketrans('', '', " {}".format(string.punctuat
 current_directory = os.path.dirname(os.path.abspath(__file__))
 websites_directory = os.path.join(current_directory, "websites")
 
+if not os.path.exists(websites_directory):
+    os.makedirs(websites_directory)
+
 tags = []
 
 for name, website in zip(hotel_names, hotel_websites):
