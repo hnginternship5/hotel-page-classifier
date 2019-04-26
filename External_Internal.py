@@ -7,10 +7,11 @@ Created on Wed Apr 25 00:15:26 2019
 from urllib.request import urlopen
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-import re
+import csv
 import datetime
 import random
-import csv
+import re
+import requests
 
 
 pages = set() 
@@ -51,7 +52,10 @@ def getExternalLinks(bs,excludeUrl):
 allExtLinks = set() 
 def getAllExternalLinks(siteUrl):
   try:
-    html = urlopen(siteUrl)
+    # Headers needed for sites that throw the 403:Forbidden error
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    page_object = requests.get(siteUrl, headers=headers)
+    html = page_object.content
     domain = '{}://{}'.format(urlparse(siteUrl).scheme,urlparse(siteUrl).netloc)
     bs = BeautifulSoup(html, 'html.parser')
     internalLinks = getInternalLinks(bs, domain)
@@ -75,7 +79,10 @@ def getAllExternalLinks(siteUrl):
 allIntLinks = set()
 def getAllInternalLinks(siteUrl):
   try:
-    html = urlopen(siteUrl)
+    # Headers needed for sites that throw the 403:Forbidden error
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    page_object = requests.get(siteUrl, headers=headers)
+    html = page_object.content
     domain = '{}://{}'.format(urlparse(siteUrl).scheme,urlparse(siteUrl).netloc)
     bs = BeautifulSoup(html, 'html.parser')
     internalLinks = getInternalLinks(bs, domain)
@@ -87,7 +94,8 @@ def getAllInternalLinks(siteUrl):
           allIntLinks.add(link)
           print(link)
           writer.writerow(link)
-  except:
+  except Exception as e:
+    print(e)
     print('Error in getting internal link')    
 
 #-----------------------------------------------------------------------------------------------#
