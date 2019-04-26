@@ -66,7 +66,7 @@ def getAllExternalLinks(siteUrl):
         if link not in allExtLinks:
           allExtLinks.add(link)
           print(link)
-          writer.writerow(link)
+          writer.writerow([link])
       for link in internalLinks:
         if link not in allIntLinks:
           allIntLinks.add(link)
@@ -93,7 +93,7 @@ def getAllInternalLinks(siteUrl):
         if link not in allExtLinks:
           allIntLinks.add(link)
           print(link)
-          writer.writerow(link)
+          writer.writerow([link])
   except Exception as e:
     print(e)
     print('Error in getting internal link')    
