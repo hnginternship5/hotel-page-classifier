@@ -29,8 +29,7 @@ def getInternalLinks(bs, includeUrl):
             internalLinks.append(link.attrs['href'])
     return internalLinks
   except:
-    print('HTTP error, link is not accessible')
-    return ''
+    pass
 
 
 def getExternalLinks(bs,excludeUrl):
