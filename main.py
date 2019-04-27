@@ -44,3 +44,5 @@ for name, website in zip(hotel_names, hotel_websites):
 
 	with open(file_path, "w") as file:
 		json.dump(tags, file, indent=2)
+		
+	tags = []
