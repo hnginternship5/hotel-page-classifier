@@ -63,5 +63,6 @@ def save_csv(internalLinks):
             print(link)
             writer.writerow([link])
 
+
 #getAllExternalLinks(desiredlink)
 #getAllInternalLinks(desiredlink)
