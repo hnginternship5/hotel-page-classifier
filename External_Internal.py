@@ -45,21 +45,23 @@ def getAllInternalLinks(siteUrl):
     domain = '{}://{}'.format(urlparse(siteUrl).scheme,urlparse(siteUrl).netloc)
     bs = BeautifulSoup(html, 'html.parser')
     internalLinks = getInternalLinks(bs, domain)
-  
-    with open('internal.csv','a+') as f1:
-      writer=csv.writer(f1, delimiter='\t',lineterminator='\n')
-      writer.writerow(["Urls"])
-      for link in internalLinks:
-        if link not in allExtLinks:
-          allIntLinks.add(link)
-          print(link)
-          writer.writerow([link])
+    return internalLinks
+
   except Exception as e:
     print(e)
     print('Error in getting internal link')
 
 #-----------------------------------------------------------------------------------------------#
 #In order to test script:Use code below
+
+def save_csv(internalLinks):
+  print(internalLinks)
+  with open('internal.csv','a+') as f1:
+        writer=csv.writer(f1, delimiter='\t',lineterminator='\n')
+        for link in internalLinks:
+            allIntLinks.add(link)
+            print(link)
+            writer.writerow([link])
 
 #getAllExternalLinks(desiredlink)
 #getAllInternalLinks(desiredlink)
