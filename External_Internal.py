@@ -56,7 +56,7 @@ def getAllInternalLinks(siteUrl):
 
 def save_csv(internalLinks):
   print(internalLinks)
-  with open('internal.csv','a+') as f1:
+  with open('internal2.csv','a+') as f1:
         writer=csv.writer(f1, delimiter='\t',lineterminator='\n')
         for link in internalLinks:
             allIntLinks.add(link)
