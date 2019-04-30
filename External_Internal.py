@@ -4,7 +4,6 @@ Created on Wed Apr 25 00:15:26 2019
 
 @author: Jesse Amamgbu, Kontrol, HAKS
 """
-from urllib.request import urlopen
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import csv
