@@ -1,6 +1,5 @@
 import pandas as pd
 df=pd.read_csv('FinalCsv.csv', names=['Url','label'])
-print(df.head())
 
 import re
 ignore_words = ['http','https','www','com','xml','php','xl','asp','co','za','html','php']
@@ -10,7 +9,6 @@ def extract_words(sentence):
     return words_cleaned
 df['Tokens'] = df['Url'].apply(lambda x: extract_words(x))
 
-print(df.head())
 
 import re
 ignore_words = ['http','https','www','com','xml','php','xl','asp','co','za','html','php']
@@ -27,19 +25,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 count_vectorizer = CountVectorizer(analyzer=extract_words,stop_words=ignore_words,vocabulary=['about',"contact",'gallery', "blog"])
 count_train = count_vectorizer.fit_transform(x)
 feature_names = count_vectorizer.get_feature_names()
-print(feature_names)
 X_vect = pd.DataFrame(count_train.toarray())
 from sklearn.tree import DecisionTreeClassifier
 dt= DecisionTreeClassifier()
 dt.fit(X_vect,y)
-
-from External_Internal import getAllInternalLinks as GLA
-def predictor():
-  url=input()
-  scraped_url = GLA(url)
-  for link in scraped_url:
-    y_pred= dt.predict(count_vectorizer.fit_transform([link]))
-    print(y_pred,url)
-    
-predictor()
-
